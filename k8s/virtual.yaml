@@ -1,0 +1,19 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: zone-lister
+spec:
+  hosts:
+  - "*"
+  gateways:
+    - services/services-gateway
+    - services/customer-admin-gateway
+  http:
+  - match:
+    - uri:
+        prefix: /list_zones
+    route:
+    - destination:
+        host: zone-lister
+        port:
+          number: 8080

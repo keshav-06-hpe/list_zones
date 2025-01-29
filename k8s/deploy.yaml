@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: zone-lister
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: zone-lister
+  template:
+    metadata:
+      labels:
+        app: zone-lister
+    spec:
+      containers:
+      - name: zone-lister
+        image: <your-dockerhub-username>/zone-lister:latest
+        ports:
+        - containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: zone-lister
+spec:
+  type: NodePort
+  selector:
+    app: zone-lister
+  ports:
+  - port: 8080
+    targetPort: 8080
+    nodePort: 30080
